@@ -3,6 +3,8 @@
 char* known_cmds[MAX_CMDS];
 int cmd_count = 0;
 
+char baseDir[1024];
+
 char history[1000][MAX_BUFFER];
 int history_count = 0;
 
@@ -24,6 +26,8 @@ int main(int argc, char* argv[]){
 
 	enableRawMode();
 
+	getcwd(baseDir, sizeof(baseDir));
+
 	atexit(disableRawMode);
 	signal(SIGINT, handleExit);
 
@@ -41,11 +45,12 @@ int main(int argc, char* argv[]){
 		known_cmds[cmd_count++] = strdup("logs");
 	if(cmd_count < MAX_CMDS)
 		known_cmds[cmd_count++] = strdup("quit");
-
+	if(cmd_count < MAX_CMDS)
+	    	known_cmds[cmd_count++] = strdup("cd");
 	printBanner();		// PRINTS BANNER
 
 	while(1){
-		fputs(COLOR_BLUE"sageshell$ "COLOR_RESET, stdout);	// Puts "sageshell$ " on the command line
+		printPrompt("");	// Puts "sageshell$ " on the command line
 
 		// Storing input using Raw Mode(ECHO is OFF)
 		int i = 0;
@@ -73,7 +78,7 @@ int main(int argc, char* argv[]){
                                 // 🔥 REDRAW AFTER ACCEPT
                                 printf("\r");
                                 printf(CLEAR_LINE);
-                                printf(COLOR_BLUE "sageshell$ " COLOR_RESET "%s", inbuf);
+                                printPrompt(inbuf);
                                 renderGhost(inbuf);
 
                                 fflush(stdout);
@@ -92,7 +97,7 @@ int main(int argc, char* argv[]){
     				handleTab(inbuf, &i);		// handleTab() invoked...
 				printf("\r");
 				printf(CLEAR_LINE);
-				printf(COLOR_BLUE "sageshell$ " COLOR_RESET "%s", inbuf);
+				printPrompt(inbuf);
 				renderGhost(inbuf);
 				fflush(stdout);
 				continue;
@@ -111,7 +116,7 @@ int main(int argc, char* argv[]){
 
 					printf("\r");
 					printf(CLEAR_LINE);
-        				printf(COLOR_BLUE "sageshell$ " COLOR_RESET "%s", inbuf);
+        				printPrompt(inbuf);
         				renderGhost(inbuf);	// renderGhost() invoked...
 
         			}
@@ -126,7 +131,7 @@ int main(int argc, char* argv[]){
 
 				printf("\r");
 				printf(CLEAR_LINE);
-    				printf(COLOR_BLUE "sageshell$ " COLOR_RESET "%s", inbuf);
+    				printPrompt(inbuf);
     				renderGhost(inbuf);	// renderGhost() invoked...
     			}
 		}
@@ -171,6 +176,21 @@ int main(int argc, char* argv[]){
 			system("clear");
 			printf("\nExiting sageshell...\n");
 			exit(0);
+		}
+
+		if(strncmp(inbuf, "cd", 2) == 0) {
+    			char temp[MAX_BUFFER];
+    			strcpy(temp, inbuf);
+    			char* cmd = strtok(temp, " \t");
+    			char* path = strtok(NULL, " \t");
+    			// cd with no argument → HOME
+    			if(path == NULL) {
+        			path = getenv("HOME");
+    			}
+    			if(chdir(path) != 0) {
+        			perror("cd failed");
+    			}
+    			continue;   // IMPORTANT: skip fork
 		}
 
 		// Forking is done and main process will be divided in 2 processes
@@ -434,6 +454,33 @@ void printBanner() {
     	printf(COLOR_MAGENTA"           Suggestive Auto-Command Generative Environment\n"COLOR_RESET);
 	printf("  Use  "COLOR_MAGENTA"TAB"COLOR_RESET"  for suggestions      |  "COLOR_MAGENTA"→"COLOR_RESET"    to accept ghost text\n");
 	printf("  Type "COLOR_MAGENTA"logs"COLOR_RESET" for command history  |  "COLOR_MAGENTA"quit"COLOR_RESET" to quit sage\n\n");
+}
+
+void printPrompt(char* inbuf) {
+
+    char cwd[1024];
+
+    if(getcwd(cwd, sizeof(cwd)) == NULL) {
+        printf(COLOR_BLUE "sageshell$ " COLOR_RESET "%s", inbuf);
+        return;
+    }
+
+    // Check if inside base directory
+    if(strncmp(cwd, baseDir, strlen(baseDir)) == 0) {
+
+        char* rel = cwd + strlen(baseDir);
+
+        if(strlen(rel) == 0) {
+            // root of sageshell
+            printf(COLOR_BLUE "sageshell$ " COLOR_RESET "%s", inbuf);
+        } else {
+            printf(COLOR_BLUE "sageshell:" COLOR_CYAN "%s" COLOR_RESET "$ %s", rel, inbuf);
+        }
+    }
+    else {
+        // outside sageshell → don't expose full path
+        printf(COLOR_BLUE "sageshell$ " COLOR_RESET "%s", inbuf);
+    }
 }
 
 void maintainLogs(char inbuf[]) {
@@ -811,8 +858,7 @@ void showSuggestions(char* input) {
     	// REDRAW PROMPT CLEANLY
     	printf("\r");
     	printf(CLEAR_LINE);
-    	printf(COLOR_BLUE "sageshell$ " COLOR_RESET "%s", input);
-
+    	printPrompt(input);
     	renderGhost(input);
     	fflush(stdout);
 }
@@ -1028,5 +1074,6 @@ void exitCycling() {		// Input loop inside main() invokes it
         	printf("\r");
 		printf(CLEAR_LINE);
 		printf(CLEAR_BELOW);
+		printPrompt("");
     	}
 }

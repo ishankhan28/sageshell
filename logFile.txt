@@ -1,0 +1,16 @@
+mkdir ali
+cd ali
+ls
+quit
+quit
+ls
+cd ali
+ls
+rmdir ali
+rmdir ali/ishan
+rmdir ali/ishan/
+cd ali
+rm ali/logFile.txt
+rmdir ali
+ls
+quit

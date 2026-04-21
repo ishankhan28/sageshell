@@ -85,6 +85,7 @@ void printBanner();
 // Logs related
 void maintainLogs(char*);
 void displayLogs();
+void printPrompt(char*);
 
 // Better error messages
 void loadCommands();
