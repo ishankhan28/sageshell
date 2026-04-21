@@ -46,7 +46,7 @@ Mistyped a command? SAGE Shell catches it and suggests what you probably meant.
 
 ```
 sage-shell> mkadir newfolder
-  ⚠ Did you mean: mkdir ?  [y/n]
+  Did you mean: mkdir ?  [y/n]
 ```
 Uses string similarity to detect typos - no more "command not found" frustration.
 
@@ -78,34 +78,6 @@ sage-shell> srm important_file.txt
 - Asks for confirmation before deleting
 - Moves files to a `.trash` folder instead of permanent deletion
 - Allows restore if you change your mind
-
----
-
-## How It Works - The Shell Loop
-
-Every shell, including Bash, runs the same fundamental loop. Here's SAGE Shell's:
-```
-┌─────────────────────────────────────┐
-│                                     │
-│   1. Display prompt  myshell>       │
-│              ↓                      │
-│   2. Read user input                │
-│              ↓                      │
-│   3. Parse command + arguments      │
-│              ↓                      │
-│   4. fork() - create child process  │
-│              ↓                      │
-│   5. Child calls execvp()           │
-│      (becomes the command)          │
-│              ↓                      │
-│   6. Parent calls wait()            │
-│      (waits for child to finish)    │
-│              ↓                      │
-│   7. Back to Step 1 ↺               │
-│                                     │
-└─────────────────────────────────────┘
-```
-
 
 ---
 
@@ -149,7 +121,6 @@ myshell/
 ### Prerequisites
 - Linux (Ubuntu recommended)
 - GCC compiler
-- Make
 
 ### Build & Run
 
@@ -172,9 +143,6 @@ Type 'help' for available commands. Type 'exit' to quit.
 
 sage-shell>
 ```
-
----
-
 
 ---
 
