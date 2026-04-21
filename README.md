@@ -103,15 +103,8 @@ These are the Linux kernel system calls that power SAGE Shell:
 ```
 sage-shell/
 │
-├── shell.c          # Main shell loop - reads input, dispatches commands
-├── executor.c       # fork() + execvp() logic
-├── parser.c         # Tokenizes input into command + args
-├── pipe.c           # Handles piped commands
-├── suggest.c        # Auto-suggestion engine
-├── correct.c        # Auto-correction using string similarity
-├── cpu.c            # CPU utilization reader from /proc/stat
-├── srm.c            # Safer remove with trash + restore
-└── README.md        # You are here
+├── sageshell.c          # Main shell loop - reads input, dispatches commands
+
 ```
 
 ---
@@ -130,10 +123,9 @@ git clone https://github.com/ishankhan28/sage-shell.git
 cd sage-shell
 
 # Compile
-gcc -o sage-shell shell.c executor.c parser.c pipe.c suggest.c correct.c cpu.c srm.c
-
+gcc -o sage-shell sageshell.c
 # Run
-./sage-shell
+./sage
 ```
 
 You'll see:
