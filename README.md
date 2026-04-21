@@ -1,5 +1,5 @@
 
-# SAGE Shell — A Linux Shell Prototype in C
+# SAGE Shell - A Linux Shell Prototype in C
 
 > *"I didn't just want to use a shell. I wanted to understand what happens inside one."*
 
@@ -9,9 +9,9 @@
 
 SAGE Shell is a **custom Linux shell** written in C using low-level system calls.
 
-Most of us type commands like `ls`, `cd`, or `grep` every day — but have you ever wondered what actually happens under the hood? This project answers exactly that.
+Most of us type commands like `ls`, `cd`, or `grep` every day - but have you ever wondered what actually happens under the hood? This project answers exactly that.
 
-Instead of relying on Bash or Zsh, SAGE Shell implements the core loop of a shell from scratch — reading your input, understanding what you mean, and making the OS do the work. Along the way it adds some quality-of-life features that even standard shells don't always offer out of the box.
+Instead of relying on Bash or Zsh, SAGE Shell implements the core loop of a shell from scratch - reading your input, understanding what you mean, and making the OS do the work. Along the way it adds some quality-of-life features that even standard shells don't always offer out of the box.
 
 ---
 
@@ -20,9 +20,9 @@ Instead of relying on Bash or Zsh, SAGE Shell implements the core loop of a shel
 ### Core Shell Features
 | Feature | Description |
 |---|---|
-| **Command Execution** | Run any standard Linux command — `ls`, `pwd`, `cat`, and more |
+| **Command Execution** | Run any standard Linux command - `ls`, `pwd`, `cat`, and more |
 | **Process Handling** | Every command spawns a child process via `fork()` + `execvp()` |
-| **Piping** | Chain commands together using `\|` — e.g. `ls \| grep .c` |
+| **Piping** | Chain commands together using `\|` - e.g. `ls \| grep .c` |
 | **Input/Output** | Reads from stdin, writes to stdout, errors to stderr |
 
 ---
@@ -37,7 +37,7 @@ sage-shell> cl
   → clear  ← suggested
   → clang
 ```
-Start typing and SAGE Shell looks up matching commands — saving you keystrokes and time.
+Start typing and SAGE Shell looks up matching commands - saving you keystrokes and time.
 
 ---
 
@@ -48,7 +48,7 @@ Mistyped a command? SAGE Shell catches it and suggests what you probably meant.
 sage-shell> mkadir newfolder
   ⚠ Did you mean: mkdir ?  [y/n]
 ```
-Uses string similarity to detect typos — no more "command not found" frustration.
+Uses string similarity to detect typos - no more "command not found" frustration.
 
 ---
 
@@ -61,14 +61,14 @@ sage-shell> cpu
   Cores    : 4
   Load Avg : 0.91, 1.02, 0.88
 ```
-SAGE Shell reads directly from `/proc/stat` to give you real-time CPU stats — no `top`, no `htop` needed.
+SAGE Shell reads directly from `/proc/stat` to give you real-time CPU stats - no `top`, no `htop` needed.
 
 ---
 
 #### Safer Remove Command (`srm`)
-`rm -rf` is powerful — and dangerous. One wrong command and your files are gone forever.
+`rm -rf` is powerful - and dangerous. One wrong command and your files are gone forever.
 
-SAGE Shell introduces `srm` — a safer alternative:
+SAGE Shell introduces `srm` - a safer alternative:
 ```
 sage-shell> srm important_file.txt
   ⚠  Are you sure you want to delete 'important_file.txt'? [y/n]: y
@@ -81,7 +81,7 @@ sage-shell> srm important_file.txt
 
 ---
 
-## How It Works — The Shell Loop
+## How It Works - The Shell Loop
 
 Every shell, including Bash, runs the same fundamental loop. Here's SAGE Shell's:
 ```
@@ -93,7 +93,7 @@ Every shell, including Bash, runs the same fundamental loop. Here's SAGE Shell's
 │              ↓                      │
 │   3. Parse command + arguments      │
 │              ↓                      │
-│   4. fork() — create child process  │
+│   4. fork() - create child process  │
 │              ↓                      │
 │   5. Child calls execvp()           │
 │      (becomes the command)          │
@@ -131,7 +131,7 @@ These are the Linux kernel system calls that power SAGE Shell:
 ```
 myshell/
 │
-├── shell.c          # Main shell loop — reads input, dispatches commands
+├── shell.c          # Main shell loop - reads input, dispatches commands
 ├── executor.c       # fork() + execvp() logic
 ├── parser.c         # Tokenizes input into command + args
 ├── pipe.c           # Handles piped commands
@@ -233,7 +233,7 @@ This project was built as a collaborative learning exercise by:
 - **Khateeb Aamir Usmani**
 - **Muhammad Ali**
 
-**Institution:** B.Tech CSE — Integral University, Lucknow
+**Institution:** B.Tech CSE - Integral University, Lucknow
 
-> *This project was built from scratch as a learning exercise to deeply understand how operating systems manage processes, memory and I/O — not just to use a shell, but to think like one.*
+> *This project was built from scratch as a learning exercise to deeply understand how operating systems manage processes, memory and I/O - not just to use a shell, but to think like one.*
 
