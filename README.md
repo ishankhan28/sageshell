@@ -71,7 +71,7 @@ SAGE Shell reads directly from `/proc/stat` to give you real-time CPU stats - no
 SAGE Shell introduces `srm` - a safer alternative:
 ```
 sage-shell> srm important_file.txt
-  ⚠  Are you sure you want to delete 'important_file.txt'? [y/n]: y
+  Are you sure you want to delete 'important_file.txt'? [y/n]: y
   Moved to trash. Restore with: restore important_file.txt
 ```
 
@@ -126,7 +126,7 @@ sage-shell/
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/sage-shell.git
+git clone https://github.com/ishankhan28/sage-shell.git
 cd sage-shell
 
 # Compile
