@@ -215,12 +215,12 @@ Goodbye!
 
 If you're learning OS internals, this project touches:
 
-- **Process creation** — how `fork()` duplicates a process
-- **Process replacement** — how `exec()` loads a new program
-- **Inter-process communication** — how `pipe()` connects processes
-- **File descriptors** — 0 (stdin), 1 (stdout), 2 (stderr)
-- **Zombie & orphan processes** — what happens when wait() is or isn't called
-- **Reading /proc filesystem** — how Linux exposes kernel data to user space
+- **Process creation** - how `fork()` duplicates a process
+- **Process replacement** - how `exec()` loads a new program
+- **Inter-process communication** - how `pipe()` connects processes
+- **File descriptors** - 0 (stdin), 1 (stdout), 2 (stderr)
+- **Zombie & orphan processes** - what happens when wait() is or isn't called
+- **Reading /proc filesystem** - how Linux exposes kernel data to user space
 
 ---
 
