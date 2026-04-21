@@ -101,7 +101,7 @@ These are the Linux kernel system calls that power SAGE Shell:
 ## Project Structure
 
 ```
-myshell/
+sage-shell/
 │
 ├── shell.c          # Main shell loop - reads input, dispatches commands
 ├── executor.c       # fork() + execvp() logic
@@ -126,11 +126,11 @@ myshell/
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/myshell.git
-cd myshell
+git clone https://github.com/yourusername/sage-shell.git
+cd sage-shell
 
 # Compile
-gcc -o myshell shell.c executor.c parser.c pipe.c suggest.c correct.c cpu.c srm.c
+gcc -o sage-shell shell.c executor.c parser.c pipe.c suggest.c correct.c cpu.c srm.c
 
 # Run
 ./sage-shell
